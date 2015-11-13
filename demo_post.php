@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>			
 <html>
 
 <head>
@@ -19,13 +19,28 @@
     <script type="text/javascript" src="js/like_status.js"></script>
     <script type="text/javascript" src="js/logout.js"></script>
     <script type="text/javascript" src="js/decline_request.js"></script>
+    <script type="text/javascript" src = "js/live_search.js"></script>
 
-    <style>
+  <style>
+
+    a:hover, a:visited, a:link, a:active
+    {
+      text-decoration: none;
+      color: #707070;
+    }
 
     .scrollable-menu {
     height: auto;
     max-height: 300px;
-    overflow-x: hidden;}
+    overflow-x: hidden;
+  }
+
+  #show
+  {
+    z-index:1;
+    position: absolute;
+    width:200px;
+  }
 
 
 </style>
@@ -53,22 +68,28 @@ $('#request').click(function(){
 
 </script>
 
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+</script>
+
 <nav class="navbar navbar-default"> 
     <div class="container-fluid">
-         <div class="navbar-header">
+         <div class="navbar-header" style="margin-left:50px;margin-top:10px;">
               <a class="navbar-brand" href="#" ><span style="font-size : 30px">CONNECT</span></a>
          </div>
                   
  <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->                 
                   
                   
-                  <div style="position:absolute;right:555px;top:21px">
-                       <h5 style="color:#6868 ;" >Welcome <?php echo strtoupper($_SESSION['name']);?> <a href="#" ><strong>&nbsp|&nbsp</strong></a></h5>
+                  <div style="position:absolute;right:545px;top:21px">
+                       <h5 style="color:#6868 ;" ><span style="font-weight:600;">WELCOME </span>&nbsp&nbsp<span style="font-size:17px;color:#003300"><?php echo ucfirst(strtolower($_SESSION['name']));?></span> <a href="#" ><strong>&nbsp|&nbsp</strong></a></h5>
 
                   </div>
 
                   <div class="dropdown" style="position:absolute;right:415px;top:21px;">
-                       <button onclick="friend_requests()" class="btn btn-primary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" style="border-radius:100%"><span class="glyphicon glyphicon-tasks"></span> 
+                       <button onclick="friend_requests()" class="btn btn-primary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" style="border-radius:100%"><span data-toggle="tooltip" data-placement="top" title="Requests.." class="glyphicon glyphicon-tasks"></span> 
                        </button>
                        
                             <div id="request_dropdown">
@@ -78,7 +99,7 @@ $('#request').click(function(){
 
 
                   <div class="dropdown clearfix"style="position:absolute;right:455px;top:21px">
-                       <button onclick="new_message()" class="btn btn-primary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" style="border-radius:100%"><span class="glyphicon glyphicon-comment"></span> 
+                       <button onclick="new_message()" class="btn btn-primary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" style="border-radius:100%"><span  data-toggle="tooltip" data-placement="top" title="Messages.." class="glyphicon glyphicon-comment"></span> 
                        </button>
                        
                             <div id="message_dropdown">
@@ -88,7 +109,7 @@ $('#request').click(function(){
                   </div>
 
                   <div class="dropdown" style="position:absolute;right:495px;top:21px">
-                       <button onclick="" class="btn btn-primary dropdown-toggle btn-sm" type="button" style="border-radius:100%" data-toggle="modal" data-target="#send_message"><span class="glyphicon glyphicon-envelope"></span> 
+                       <button onclick="" class="btn btn-primary dropdown-toggle btn-sm" type="button" style="border-radius:100%" data-toggle="modal" data-target="#send_message"><span  data-toggle="tooltip" data-placement="bottom" title="Send messages" class="glyphicon glyphicon-envelope"></span> 
                        </button>
                        <ul class="dropdown-menu">
                             <div id="send_message_dropdown">
@@ -107,7 +128,7 @@ $('#request').click(function(){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Send short private messages...</h4>
       </div>
       <div class="modal-body">
         <form name="send_message">
@@ -155,7 +176,12 @@ $('#request').click(function(){
 
                   <form role="form" class="form-inline" name="check_friend">
                        <div class="form-group" style="position:absolute;">
-                             <input type="text" class="form-control" id="friend_request" placeholder="send request" name="email">
+                            <div  class="inner-addon right-addon">
+                            <input type="text" id="friend_request" style="color : #600000" placeholder = "search friend...." class="form-control" autocomplete = "off" onkeyup="live_search(this.value)" onfocus="call2()" type="text">
+                            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                            </div>
+                            <div id="show"></div>
+                             <!--input type="text" class="form-control" id="friend_request" placeholder="send request" name="email"-->
                        </div>
                   </form>
 
@@ -197,10 +223,40 @@ $('#request').click(function(){
                 </div>
 
 
-                 <div >
-                    <span class="glyphicon glyphicon-user" style="font-size:50px; float:right ; 
+                 <!--div >
+                    <span id="user" onclick="logout_menu()" class="glyphicon glyphicon-user" style="font-size:50px; float:right ; 
                                         margin-right:10px ;margin-top:10px; margin-bottom:10px;"> </span>
-                 </div>                              
+                    <div id="logout_panel" class="panel panel-default" style="visibility:hidden ; width:200px ; height:80px; position:absolute; margin-left:1120px; margin-top:65px; z-index:+1">
+                    <div class="panel-body">
+                        <span>Logout user :</span>
+                        <span style="font-size:17px;color:#003300"><?php //echo ucfirst(strtolower($_SESSION['name']));?></span>
+                    </div>
+                    <div class="panel-footer">    
+                        <center><button class="btn btn-danger btn-sm" onclick="logout()">Log Out&nbsp&nbsp<span class="glyphicon glyphicon-off"></span></button></center></div>
+                    </div>
+                 </div-->    
+
+                  <div>
+                    <span onclick="logout_menu()" style="float:right ; 
+                          margin-right:15px ;margin-top:17px; margin-bottom:10px;"><button style="font-size:18px;border-radius:100%" class="btn btn-danger"><?php echo strtoupper(substr($_SESSION['name'], 0 , 1));?></button></span>
+
+                    <div id="logout_panel" class="panel panel-danger" style="visibility:hidden ; width:300px ; height:110px; position:absolute; margin-left:1020px; margin-top:65px; z-index:+1">
+                    <div class="panel-body">
+                        <div style="float:left;"><button style="border-radius:100%" class="btn btn-danger btn-lg"><span style="font-size:37px;">&nbsp<?php echo strtoupper(substr($_SESSION['name'], 0 , 1));?>&nbsp</span></button></span></div>
+                        <div style="float:left ; margin-left:15px;">
+                        </br>
+                        <span style="font-size:17px;color:#003300"><?php echo ucfirst(strtolower($_SESSION['name']));?></span></br>
+                        <span style="font-size:15px;color:grey"><?php echo strtolower($_SESSION['email']);?></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <table width="100%">
+                        <tr><td><button class="btn btn-default btn-md" disabled="true" onclick="logout()">Edit Profile&nbsp&nbsp<span class="glyphicon glyphicon-user"></span></button></td>
+                        <td><button class="btn btn-default btn-md" onclick="logout()">Log Out&nbsp&nbsp<span class="glyphicon glyphicon-off"></span></button></td></tr>
+                        </table>
+                    </div>
+                    </div>
+                 </div>                           
     </div>
 </nav>
 
@@ -262,7 +318,7 @@ $('#request').click(function(){
 
         <div class="col-md-3" style="margin-top : -160px ;margin-left:95px; position : fixed" >
         	               <!--put user profile here-->
-             <div class="panel panel-default" style="position:fixed">
+             <div class="panel panel-default" style="position:fixed ; width:220px;">
                   <div class="panel-heading"><center>User Profile</center></div>
                   <div id="image"><center><img width=170px height=120px src="images/web-user.jpg" class="img-rounded" alt="Cinque Terre" width="320" height="236"></center></div>
                   <div class="panel-body">
@@ -270,8 +326,8 @@ $('#request').click(function(){
                          <div id="user_profile_table">
                                 <!-- user deatils here-->
                          </div>
-                         <center><button class="btn btn-primary" onclick="logout()">Log Out&nbsp&nbsp<span class="glyphicon glyphicon-off"></span></button></center>
-                  	  </div>
+                         <!--center><button class="btn btn-primary" onclick="logout()">Log Out&nbsp&nbsp<span class="glyphicon glyphicon-off"></span></button></center-->
+                      </div>
                   </div>
              </div>
         </div>
@@ -289,11 +345,56 @@ $('#request').click(function(){
         
         <div class="col-md-3">
             <!--intensionalyy left blank-->
-        </div>  
+        </div> 
+
+        <!--div class="panel panel-default">
+            <div class="panel-body"></div>
+        </div--> 
+
+        <div class="panel panel-default" id="live_chat_mode" style="position:fixed; margin-top : 210px ; margin-left:110px ; width:220px;">
+            <div class="panel-body">
+                <p style="text-align:center; padding:10px;font-family:verdana;font-weight:300">Messenger allows you to have real time chat with your friends.</p>
+                <center><a href="chat_window.php"><button class="btn btn-primary active">messenger&nbsp<span style="font-size:20px; color:red"class = "glyphicon glyphicon-flash"></span></button></a></center></br>
+            </div>
+        </div>
+
+
+
+  <script type="text/javascript">
+
+  function call(e)
+  {
+          var element = document.getElementById("friend_request");
+          element.value = e;
+  }
+
+
+
+    function call2()
+    {
+          document.getElementById("show").style.display = "block";
+    }
+
+    var check=1;
+    function logout_menu()
+    {
+        if(check==1)
+        {
+            check=0;
+            document.getElementById("logout_panel").style.visibility = "hidden";
+        }
+        else
+        {
+             check=1;
+             document.getElementById("logout_panel").style.visibility = "visible"; 
+             setTimeout(function(){ 
+                    document.getElementById("logout_panel").style.visibility = "hidden";
+                    check=0;
+             }, 10000); 
+        }
+    }
+
+</script>
 
 </body>
 </html>
-
-<!--<?php //include_once 'post_status.php';
-                        post_status();
-            //          ?-->

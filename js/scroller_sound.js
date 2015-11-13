@@ -1,5 +1,4 @@
-
-function create_friendlist()
+function scroller_sound()
 {
 	var xmlhttp;
 
@@ -11,13 +10,15 @@ function create_friendlist()
           {
           	if(xmlhttp.readyState==4 && xmlhttp.status==200)
           	{
-                  //alert(xmlhttp.responseText);
-          		    $("#friends").html(xmlhttp.responseText);
+                if(xmlhttp.responseText==1)
+                {
+                   //play_sound();
+                }
           	}
           }
 	}
 
-	var data = "create_friendlist_livechat.php";
+	var data = "scroller_sound.php";
 	xmlhttp.open("get",data,true);
   xmlhttp.send();
 }

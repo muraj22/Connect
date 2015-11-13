@@ -1,6 +1,8 @@
-
-function create_friendlist()
+function load_chat(e)
 {
+	//setInterval(function(){ load_chat(e)}, 3000);
+	var id = e.getAttribute("name");
+	//alert(name);
 	var xmlhttp;
 
 	if(window.XMLHttpRequest)
@@ -12,12 +14,13 @@ function create_friendlist()
           	if(xmlhttp.readyState==4 && xmlhttp.status==200)
           	{
                   //alert(xmlhttp.responseText);
-          		    $("#friends").html(xmlhttp.responseText);
+          		  $("#display").html(xmlhttp.responseText);
+          		  scroll();
           	}
           }
 	}
 
-	var data = "create_friendlist_livechat.php";
+	var data = "load_chat.php?&id=" + id;
 	xmlhttp.open("get",data,true);
   xmlhttp.send();
 }

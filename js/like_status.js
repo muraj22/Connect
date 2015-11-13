@@ -1,22 +1,26 @@
 function like_status(e)
 {
-  //alert("js called");
 	var name = e.getAttribute("name");
+  //alert(name);
 
   var button = name.charAt(0);
   var id = name.substring(1, name.length);
 
   var btn;
+  var id_of_number;
 
   if(button=='+')
   {
     btn = "like";
+    id_of_number = "up_"+id;
   }
   else
   {
     btn ="dislike";
+    id_of_number = "down_"+id;
   }
 
+  //alert("something");
 	var xmlhttp;
 
 	if(window.XMLHttpRequest)
@@ -27,9 +31,15 @@ function like_status(e)
           {
           	if(xmlhttp.readyState==4 && xmlhttp.status==200)
           	{
-              location.reload();
-              //alert(xmlhttp.responseText);
-          		//$("#posts").replaceWith(xmlhttp.responseText);
+              //alert(xmlhttp.responseText)
+              if(btn=="like")
+              {
+                   $('#' + id_of_number).html(xmlhttp.responseText);
+              }
+              else if(btn=="dislike")
+              {
+                   $('#' + id_of_number).html(xmlhttp.responseText);
+              }
           	}
           }
 	}

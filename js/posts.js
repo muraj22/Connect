@@ -1,6 +1,5 @@
 function update_post()
 {
-  //alert("js called");
 	var post = document.post.post_area.value;
 	var xmlhttp;
 
@@ -12,7 +11,6 @@ function update_post()
           {
           	if(xmlhttp.readyState==4 && xmlhttp.status==200)
           	{
-              //alert(xmlhttp.responseText);
           		$("#posts").replaceWith(xmlhttp.responseText);
               location.reload();
           	}

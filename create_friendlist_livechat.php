@@ -9,7 +9,7 @@ $db->connect();
 //$_SESSION['user_id'] = $_SESSION['user_id'];
 
 $query = "select u.user_nicename , u.user_id from users u JOIN friends f WHERE (f.user_id = ".$_SESSION['user_id'].") AND (f.friend_id=u.user_id) AND (f.request_pending=1)";
-//$query = "select u.user_nicename , u.user_id from users u JOIN friends f WHERE (f.user_id = 1) AND (f.friend_id=u.user_id) AND (f.request_pending=1)";
+//$query = "select u.user_nicename , u.user_id from users u JOIN friends f WHERE (f.user_id = 1 ) AND (f.friend_id=u.user_id) AND (f.request_pending=1)";
 
 $result = $db->run_query($query);
 
@@ -25,7 +25,7 @@ else
 {
 while($row = mysqli_fetch_array($result))
 {
-	echo '<a href="#" class="list-group-item" name="' . $row["user_id"] . '">'.strtoupper($row["user_nicename"]).'</a>';
+	echo '<a href="#" onclick="scroll(); pause_sound(); load_chat(this); changeName();" class="list-group-item" name="' . $row["user_id"] . '">'.strtoupper($row["user_nicename"]).'</a>';
 }	
 }
 

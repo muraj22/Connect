@@ -6,9 +6,9 @@ include 'include/connection.php';
 $db = new Database();
 $db->connect();
 
-$user_id = $_SESSION['user_id'];
+//$_SESSION['user_id'] = $_SESSION['user_id'];
 
-$query = "select u.user_nicename, m.message from users u JOIN messages m ON u.user_id = m.from_user WHERE (m.to_user=$user_id)";
+$query = "select u.user_nicename, m.message from users u JOIN messages m ON u.user_id = m.from_user WHERE (m.to_user=".$_SESSION['user_id'].") ORDER BY id DESC";
 
 $result = $db->run_query($query);
 

@@ -6,7 +6,7 @@ include 'include/connection.php';
 $db = new Database();
 $db->connect();
 
-$user_id = $_SESSION['user_id'];
+//$_SESSION['user_id'] = $_SESSION['user_id'];
 $status_id = $_GET['status_id'];    // status id
 $btn = $_GET['button'];
 

@@ -1,5 +1,5 @@
 
-function create_friendlist()
+function changeName()
 {
 	var xmlhttp;
 
@@ -11,13 +11,13 @@ function create_friendlist()
           {
           	if(xmlhttp.readyState==4 && xmlhttp.status==200)
           	{
-                  //alert(xmlhttp.responseText);
-          		    $("#friends").html(xmlhttp.responseText);
+          		    $("#username").html(xmlhttp.responseText);
+                  $("#first_letter").html((xmlhttp.responseText.substring(0,1)).toUpperCase());
           	}
           }
 	}
 
-	var data = "create_friendlist_livechat.php";
+	var data = "changeName.php";
 	xmlhttp.open("get",data,true);
   xmlhttp.send();
 }

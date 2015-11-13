@@ -1,6 +1,6 @@
 <?php
 
-session_id("login");
+//session_id("login");
 session_start();
 
 include_once 'include/connection.php';
@@ -22,7 +22,8 @@ while($row=mysqli_fetch_array($result))
 	{
 		  $_SESSION['user_id'] = $row['user_id'] ;
 		  $_SESSION['name'] = $row['user_nicename'];
-          $check =1;
+		  $_SESSION['email'] = $row['user_email'];
+          $check=1;
 	}
 }
 echo "$check";

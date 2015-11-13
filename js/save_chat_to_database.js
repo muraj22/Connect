@@ -1,6 +1,6 @@
-
-function create_friendlist()
+function save_chat_to_database()
 {
+  var message = document.getElementById("message").value;
 	var xmlhttp;
 
 	if(window.XMLHttpRequest)
@@ -11,13 +11,14 @@ function create_friendlist()
           {
           	if(xmlhttp.readyState==4 && xmlhttp.status==200)
           	{
-                  //alert(xmlhttp.responseText);
-          		    $("#friends").html(xmlhttp.responseText);
+                /*if(message!="" && xmlhttp.responseText==1)
+                 play_sound();*/
+          		  $("#message").val("");
           	}
           }
 	}
 
-	var data = "create_friendlist_livechat.php";
+	var data = "save_chat_to_database.php?&message=" + message;
 	xmlhttp.open("get",data,true);
   xmlhttp.send();
 }
